@@ -17,7 +17,7 @@ const loggedInStates={
   LOGGING_IN:'LOGGING_IN'
 }
 
-const App = () =>{
+const App = () => {
   const [isFirstLaunch, setFirstLaunch] = React.useState(true);
   const [loggedInState,setLoggedInState] = React.useState(loggedInStates.NOT_LOGGED_IN);
   const [phoneNumber,setPhoneNumber] = React.useState("");
@@ -56,6 +56,7 @@ return(
   } else if(loggedInState==loggedInStates.NOT_LOGGED_IN){
     return (
       <View>
+        <Text style={styles.title} >Welcome back!</Text>
         <TextInput 
           value={phoneNumber}
           onChangeText={setPhoneNumber}
@@ -154,5 +155,12 @@ return(
        alignItems: "center",
        backgroundColor: "#DDDDDD",
        padding: 10
-     }    
+     },
+     title:{
+      textAlign:"center",
+      marginTop: 20,
+      fontSize: 19,
+      color:'#A0CE4E',
+      fontWeight:'bold',
+     }   
  })

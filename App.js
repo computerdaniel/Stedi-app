@@ -23,6 +23,19 @@ const App = () => {
   const [phoneNumber,setPhoneNumber] = React.useState("");
   const [oneTimePassword, setOneTimePassword] = React.useState("");
   const [homeTodayScore, setHomeTodayScore] = React.useState(0);
+  const [isBiometricSupported, setIsBiometricSupported] = React.useState(false);
+  const [IsBiometricEnrolled, setIsBiometricEnrolled] = React.useState(false);
+useEffect(() => {
+  (async() => {
+    const compatible = await LocalAuthentication.hasHardwareAsync();
+    setIsBiometricSupported(compatible);
+
+
+    const enrolled = await LocalAuthentication.isEnrolledAsync();
+    setIsBiometricEnrolled(enrolled);
+  })();
+});
+
 
   useEffect(()=>{//this is code that has to run before we show app screen
    const getSessionToken = async()=>{
@@ -57,6 +70,12 @@ return(
     return (
       <View>
         <Text style={styles.title} >Welcome back!</Text>
+        <Text> {isBiometricSupported ? 'Your divice is compatible with Biometrics'
+        :'Your device is not compatible with Biometrics'}
+        </Text>
+        <Text> {IsBiometricEnrolled ? 'You have a fingerprint or face Biometrics'
+        :'You have not saved a fingerprint or face Biometric'}
+        </Text>
         <TextInput 
           value={phoneNumber}
           onChangeText={setPhoneNumber}
@@ -64,6 +83,20 @@ return(
           placeholderTextColor='#4251f5' 
           placeholder='Cell Phone'>          
         </TextInput>
+        <Button>
+        title='Biometric Authentication'
+        style={styles.button}
+        onPress={async () => {
+          const BiometricAuth = await LocalAuthentication.authenticateAsync({
+            promptMessage: 'login with Biometrics',
+            disableDeviceFallback: true,
+            cancelLabel: "Cancel"
+          })
+          console.log("Biometric Auth", biometricAuth)
+         }}
+
+
+        </Button>
         <Button
           title='Send'
           style={styles.button}

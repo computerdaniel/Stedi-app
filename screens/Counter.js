@@ -148,6 +148,18 @@ setScore(scoreObject.score);
  }
 }
 
+const mySpotterShare = async() =>{
+  const shareOptions = {
+    message: 'https://dev.stedi.me/timer.html#'+(token.current)
+  }
+  try{
+    const shareResponse = await Share.share(shareOptions)
+    console.log(shareResponse);
+    }
+    catch(error){
+console.log('Error', error)
+    }
+
 
 //outcome of the saving data
 const outcome = () =>{
@@ -328,6 +340,13 @@ elevation: 4}}>
       <Text>{subscription ? 'Stop' : 'GO'}</Text>
      </TouchableOpacity>
 
+     <TouchableOpacity
+     onPress={mySpotterShare}
+      style={styles.button}
+    >
+      <Text>Add Spotter </Text>
+     </TouchableOpacity>
+
      </CardContent>
      <ProgressBar progress={(stepCount * 0.50/30) + (completionCount * 0.50)} width={300} height={25} color={'#A0CE4E'} style={styles.bar}/>
 </Card>
@@ -477,3 +496,4 @@ marginBottom: 2
     },
 
 });
+}
